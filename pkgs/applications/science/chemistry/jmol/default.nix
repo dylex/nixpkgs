@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     baseVersion = "${lib.versions.major version}.${lib.versions.minor version}";
   in fetchurl {
     url = "mirror://sourceforge/jmol/Jmol/Version%20${baseVersion}/Jmol%20${version}/Jmol-${version}-binary.tar.gz";
-    sha256 = "0f9sxhxyqrd1vvmq566v1zpzzlci37pm9j7alzak766x5dg5yyz1";
+    sha256 = "1a1vlf7spf973b740yvamvs2dcinxq17v16cf797cv8zcng57zs5";
   };
 
   patchPhase = ''
