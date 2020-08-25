@@ -1,5 +1,6 @@
 { stdenv, fetchurl, perl, file, nettools, iputils, iproute, makeWrapper
 , coreutils, gnused, openldap ? null
+, zlib
 , buildPackages, lib
 }:
 
@@ -22,7 +23,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ perl ];
 
-  buildInputs = [ makeWrapper openldap ];
+  buildInputs = [ makeWrapper openldap zlib ];
 
   depsBuildBuild = [ buildPackages.stdenv.cc ];
 
@@ -36,6 +37,7 @@ stdenv.mkDerivation rec {
     "--enable-early-chroot"
     "--sysconfdir=/etc"
     "--localstatedir=/var"
+    "--with-bind-extra-config=--with-zlib=${zlib.dev}"
   ] ++ lib.optional stdenv.isLinux "--with-randomdev=/dev/random"
     ++ stdenv.lib.optionals (openldap != null) [ "--with-ldap" "--with-ldapcrypto" ];
 
