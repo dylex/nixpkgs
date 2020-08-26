@@ -54,6 +54,7 @@ stdenv.mkDerivation rec {
   cmakeFlags = [
     "-DWITH_MOZJS=ON"
     "-DWITH_PYTHON2=OFF"
+    "-DWITH_PERL=OFF"
     "-DPYTHON3_SITEPKG_DIR=${placeholder "py3"}/${python3.sitePackages}"
   ];
 
