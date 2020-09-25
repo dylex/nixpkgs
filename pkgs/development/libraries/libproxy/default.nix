@@ -55,6 +55,7 @@ stdenv.mkDerivation rec {
     "-DWITH_MOZJS=ON"
     "-DWITH_PYTHON2=OFF"
     "-DPYTHON3_SITEPKG_DIR=${placeholder "py3"}/${python3.sitePackages}"
+    "-DWITH_PERL=OFF"
   ];
 
   patches = [
