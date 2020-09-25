@@ -199,6 +199,7 @@ let
     };
     propagatedBuildInputs = [ AlienBuild ];
     buildInputs = [ pkgs.libxml2 MojoDOM58 SortVersions Test2Suite URI ];
+    NIX_CFLAGS_COMPILE = "-I${pkgs.libxml2.dev}/include/libxml2";
     meta = {
       description = "Install the C libxml2 library on your system";
       license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
@@ -22000,6 +22001,8 @@ let
       sha256 = "0y12bcpnxzn8vs9zglaaxkw0kgrgmljxrxdf1cnijgxi2hkh099s";
     };
     SKIP_SAX_INSTALL = 1;
+    NIX_CFLAGS_COMPILE = "-I${pkgs.libxml2.dev}/include/libxml2";
+    NIX_CFLAGS_LINK = "-L${pkgs.libxml2.out}/lib";
     buildInputs = [ AlienBuild AlienLibxml2 ];
     propagatedBuildInputs = [ XMLSAX ];
   };
