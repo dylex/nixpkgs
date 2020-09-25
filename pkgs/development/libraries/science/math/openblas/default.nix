@@ -138,6 +138,8 @@ stdenv.mkDerivation rec {
   # upstream fix: https://github.com/xianyi/OpenBLAS/issues/2496
   patches = stdenv.lib.optionals stdenv.hostPlatform.isAarch64 [
     ./0001-Disable-optimised-aarch64-dgemm_beta-pending-fix.patch
+  ] ++ [
+    ./fix-dynamic-arch-gemm-crashes.patch
   ];
 
   makeFlags = mkMakeFlagsFromConfig (config // {

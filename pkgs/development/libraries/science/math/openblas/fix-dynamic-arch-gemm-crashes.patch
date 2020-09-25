@@ -1,0 +1,24 @@
+Description: Fix random crashes in GEMM on Haswell, Zen and Skylake-X
+Origin: upstream, https://github.com/xianyi/OpenBLAS/pull/2729/commits/6c33764ca43c7311bdd61e2371b08395cf3e3f01
+Bug: https://github.com/xianyi/OpenBLAS/issues/2728
+Bug-Debian: https://bugs.debian.org/966175
+Last-Update: 2020-07-29
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/common_x86_64.h
++++ b/common_x86_64.h
+@@ -228,14 +228,8 @@ static __inline unsigned int blas_quickdivide(unsigned int x, unsigned int y){
+ #define HUGE_PAGESIZE	( 2 << 20)
+ 
+ #ifndef BUFFERSIZE
+-#if defined(SKYLAKEX) 
+-#define BUFFER_SIZE	(32 << 21)
+-#elif defined(HASWELL) || defined(ZEN)
+ #define BUFFER_SIZE	(32 << 22)
+ #else
+-#define BUFFER_SIZE	(32 << 20)
+-#endif
+-#else
+ #define BUFFER_SIZE	(32 << BUFFERSIZE)
+ #endif
+ 
