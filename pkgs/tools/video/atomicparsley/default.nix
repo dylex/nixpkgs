@@ -1,11 +1,13 @@
-{ stdenv, fetchhg, autoreconfHook, zlib, Cocoa }:
+{ stdenv, fetchFromGitHub, autoreconfHook, zlib, Cocoa }:
 
 stdenv.mkDerivation {
   pname = "atomicparsley";
   version = "0.9.6";
 
-  src = fetchhg {
-    url = "https://bitbucket.org/wez/atomicparsley";
+  src = fetchFromGitHub {
+    owner = "wez";
+    repo = "atomicparsley";
+    rev = "0.9.6";
     sha256 = "05n4kbn91ps52h3wi1qb2jwygjsc01qzx4lgkv5mvwl5i49rj8fm";
   };
 
