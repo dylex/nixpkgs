@@ -2390,6 +2390,8 @@ in {
 
   google-auth-oauthlib = callPackage ../development/python-modules/google-auth-oauthlib { };
 
+  google-cloud-access-context-manager = callPackage ../development/python-modules/google-cloud-access-context-manager { };
+
   google_cloud_asset = callPackage ../development/python-modules/google_cloud_asset { };
 
   google_cloud_automl = callPackage ../development/python-modules/google_cloud_automl { };
@@ -2425,6 +2427,8 @@ in {
   google_cloud_logging = callPackage ../development/python-modules/google_cloud_logging { };
 
   google_cloud_monitoring = callPackage ../development/python-modules/google_cloud_monitoring { };
+
+  google-cloud-org-policy = callPackage ../development/python-modules/google-cloud-org-policy { };
 
   google_cloud_pubsub = callPackage ../development/python-modules/google_cloud_pubsub { };
 
@@ -4012,6 +4016,8 @@ in {
 
   nose-focus = callPackage ../development/python-modules/nose-focus { };
 
+  nose-timer = callPackage ../development/python-modules/nose-timer { };
+
   nosejs = callPackage ../development/python-modules/nosejs { };
 
   nose-of-yeti = callPackage ../development/python-modules/nose-of-yeti { };
@@ -4036,6 +4042,8 @@ in {
   notify2 = callPackage ../development/python-modules/notify2 { };
 
   notify = callPackage ../development/python-modules/notify { };
+
+  notify-py = callPackage ../development/python-modules/notify-py { };
 
   notmuch = callPackage ../development/python-modules/notmuch { inherit (pkgs) notmuch; };
 
