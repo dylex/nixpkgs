@@ -2689,16 +2689,13 @@ in
 
   circus = callPackage ../tools/networking/circus { };
 
-  citrix_workspace = citrix_workspace_20_09_0;
+  citrix_workspace = citrix_workspace_20_10_0;
 
   inherit (callPackage ../applications/networking/remote/citrix-workspace { })
-    citrix_workspace_19_6_0
-    citrix_workspace_19_8_0
-    citrix_workspace_19_10_0
-    citrix_workspace_19_12_0
     citrix_workspace_20_04_0
     citrix_workspace_20_06_0
     citrix_workspace_20_09_0
+    citrix_workspace_20_10_0
   ;
 
   citra = libsForQt5.callPackage ../misc/emulators/citra { };
@@ -6060,8 +6057,6 @@ in
 
   packagekit = callPackage ../tools/package-management/packagekit { };
 
-  packagekit-qt = libsForQt5.callPackage ../tools/package-management/packagekit/qt.nix { };
-
   packetdrill = callPackage ../tools/networking/packetdrill { };
 
   pacman = callPackage ../tools/package-management/pacman { };
@@ -7860,8 +7855,6 @@ in
 
   udunits = callPackage ../development/libraries/udunits { };
 
-  uemacs = callPackage ../applications/editors/uemacs { };
-
   uftp = callPackage ../servers/uftp {};
 
   uhttpmock = callPackage ../development/libraries/uhttpmock { };
@@ -8558,8 +8551,6 @@ in
   devpi-server = callPackage ../development/tools/devpi-server {};
 
   dotty = callPackage ../development/compilers/scala/dotty.nix { jre = jre8;};
-
-  drumstick = callPackage ../development/libraries/drumstick { };
 
   ecl = callPackage ../development/compilers/ecl { };
   ecl_16_1_2 = callPackage ../development/compilers/ecl/16.1.2.nix { };
@@ -13052,7 +13043,7 @@ in
     let
       mkFrameworks = import ../development/libraries/kde-frameworks;
       attrs = {
-        libsForQt5 = libsForQt512;
+        inherit libsForQt5;
         inherit lib fetchurl;
       };
     in
@@ -13066,8 +13057,6 @@ in
   keybinder3 = callPackage ../development/libraries/keybinder3 {
     automake = automake111x;
   };
-
-  kf5gpgmepp = libsForQt5.callPackage ../development/libraries/kf5gpgmepp { };
 
   krb5 = callPackage ../development/libraries/kerberos/krb5.nix {
     inherit (buildPackages.darwin) bootstrap_cmds;
@@ -14848,8 +14837,6 @@ in
       inherit llvmPackages_5;
     });
 
-  libsForQt512 = recurseIntoAttrs (lib.makeScope qt512.newScope mkLibsForQt5);
-
   qt514 = recurseIntoAttrs (makeOverridable
     (import ../development/libraries/qt-5/5.14) {
       inherit newScope;
@@ -14880,6 +14867,8 @@ in
       inherit llvmPackages_5;
     });
 
+  libsForQt512 = recurseIntoAttrs (lib.makeScope qt512.newScope mkLibsForQt5);
+
   libsForQt514 = recurseIntoAttrs (lib.makeScope qt514.newScope mkLibsForQt5);
 
   libsForQt515 = recurseIntoAttrs (lib.makeScope qt515.newScope mkLibsForQt5);
@@ -14895,39 +14884,52 @@ in
     ### KDE FRAMEWORKS
 
     inherit (kdeFrameworks.override { libsForQt5 = self; })
-      attica baloo bluez-qt kactivities kactivities-stats karchive kauth
-      kbookmarks kcmutils kcalendarcore kcodecs kcompletion kconfig
-      kconfigwidgets kcoreaddons kcrash kdav kdbusaddons kdeclarative
-      kdelibs4support kdesignerplugin kdewebkit kdnssd kdoctools kemoticons
-      kfilemetadata kglobalaccel kguiaddons khtml ki18n kiconthemes kidletime
-      kimageformats kio kitemmodels kitemviews kjobwidgets kjs kjsembed
-      kmediaplayer knewstuff knotifications knotifyconfig kpackage kparts
-      kpeople kplotting kpty kross krunner kservice ktexteditor ktextwidgets
-      kunitconversion kwallet kwayland kwidgetsaddons kwindowsystem kxmlgui
-      kxmlrpcclient modemmanager-qt networkmanager-qt plasma-framework prison
-      qqc2-desktop-style solid sonnet syntax-highlighting syndication
-      threadweaver kirigami2 kholidays kpurpose kcontacts kquickcharts
-      kapidox;
+      attica baloo bluez-qt kactivities kactivities-stats
+      karchive kauth kbookmarks kcmutils kcalendarcore kcodecs kcompletion kconfig
+      kconfigwidgets kcoreaddons kcrash kdav kdbusaddons kdeclarative kdelibs4support
+      kdesignerplugin kdnssd kemoticons kfilemetadata kglobalaccel kguiaddons
+      khtml ki18n kiconthemes kidletime kimageformats kio kitemmodels kitemviews
+      kjobwidgets kjs kjsembed kmediaplayer knewstuff knotifications
+      knotifyconfig kpackage kparts kpeople kplotting kpty kross krunner
+      kservice ktexteditor ktextwidgets kunitconversion kwallet kwayland
+      kwidgetsaddons kwindowsystem kxmlgui kxmlrpcclient modemmanager-qt
+      networkmanager-qt plasma-framework prison qqc2-desktop-style solid sonnet
+      syntax-highlighting syndication threadweaver kirigami2 kholidays kpurpose
+      kcontacts kquickcharts kdoctools kapidox kdesu kinit kded frameworkintegration
+      kdewebkit breeze-icons
+    ;
 
     ### KDE PLASMA 5
 
     inherit (plasma5.override { libsForQt5 = self; })
-      breeze-qt5 kdecoration khotkeys libkscreen libksysguard;
+      kdecoration khotkeys libkscreen libksysguard bluedevil
+      breeze-gtk breeze-qt5 breeze-grub breeze-plymouth discover kactivitymanagerd
+      kde-cli-tools kde-gtk-config kdeplasma-addons kgamma5 kinfocenter kmenuedit
+      kscreen kscreenlocker ksshaskpass ksysguard kwallet-pam kwayland-integration
+      kwin kwrited milou oxygen plasma-browser-integration plasma-desktop
+      plasma-integration plasma-nm plasma-pa plasma-vault plasma-workspace
+      plasma-workspace-wallpapers polkit-kde-agent powerdevil sddm-kcm
+      systemsettings user-manager xdg-desktop-portal-kde
+    ;
+
+    inherit ((plasma5.override { libsForQt5 = self; }).thirdParty)
+      plasma-applet-caffeine-plus kwin-dynamic-workspaces kwin-tiling krohnkite
+    ;
 
     ### KDE APPLICATIONS
 
-    inherit
-      (import ../applications/kde { libsForQt5 = self; inherit lib fetchurl; })
-      akonadi-calendar akonadi-contacts akonadi-import-wizard akonadi-mime
-      akonadi-notes akonadi-search baloo-widgets calendarsupport eventviews
-      grantleetheme incidenceeditor kalarmcal kcalutils kdegraphics-mobipocket
-      kdepim-addons kdepim-apps-libs kdepim-runtime kidentitymanagement kimap
-      kipi-plugins kitinerary kldap kmail-account-wizard kmailtransport kmbox
-      kmime kontactinterface kpimtextedit kpkpass kqtquickcharts ksmtp ktnef
-      libgravatar libkcddb libkdcraw libkdegames libkdepim libkexiv2 libkgapi
-      libkipi libkleo libkmahjongg libkomparediff2 libksane libksieve mailcommon
-      mailimporter marble messagelib pim-sieve-editor pimcommon
-      kdegraphics-thumbnailers kio-extras print-manager;
+    inherit (kdeApplications.override { libsForQt5 = self; })
+      libkdcraw libkexiv2 libkipi libkomparediff2 libksane libkcddb akonadi-contacts
+      akonadi-calendar akonadi-notes akonadi-search kidentitymanagement kontactinterface
+      kldap akonadi akregator ark bomber bovo dolphin dragon elisa ffmpegthumbs filelight
+      granatier gwenview k3b kaddressbook kalzium kapptemplate kapman kate katomic
+      kblackbox kblocks kbounce kcachegrind kcalc kcharselect kcolorchooser
+      kdenlive kdf kdialog kdiamond keditbookmarks kfind kfloppy kget kgpg khelpcenter
+      kig kigo killbots kitinerary kleopatra klettres klines kmag kmail kmines kmix kmplot
+      knavalbattle knetwalk knights kollision kolourpaint kompare konsole kontact korganizer
+      kpkpass krdc kreversi krfb kshisen ksquares ksystemlog kteatime ktimer ktouch kturtle
+      kwalletmanager kwave marble minuet okular picmi spectacle yakuake
+    ;
 
     ### LIBRARIES
 
@@ -14938,6 +14940,8 @@ in
     appstream-qt = callPackage ../development/libraries/appstream/qt.nix { };
 
     dxflib = callPackage ../development/libraries/dxflib {};
+
+    drumstick = callPackage ../development/libraries/drumstick { };
 
     fcitx-qt5 = callPackage ../tools/inputmethods/fcitx/fcitx-qt5.nix { };
 
@@ -14950,6 +14954,8 @@ in
     kdiagram = callPackage ../development/libraries/kdiagram { };
 
     kdsoap = callPackage ../development/libraries/kdsoap { };
+
+    kf5gpgmepp = callPackage ../development/libraries/kf5gpgmepp { };
 
     kproperty = callPackage ../development/libraries/kproperty { };
 
@@ -14968,6 +14974,8 @@ in
     liblastfm = callPackage ../development/libraries/liblastfm { };
 
     libopenshot = callPackage ../applications/video/openshot-qt/libopenshot.nix { };
+
+    packagekit-qt = callPackage ../tools/package-management/packagekit/qt.nix { };
 
     libopenshot-audio = callPackage ../applications/video/openshot-qt/libopenshot-audio.nix { };
 
@@ -15039,6 +15047,9 @@ in
 
     qtwebkit-plugins = callPackage ../development/libraries/qtwebkit-plugins { };
 
+    # Not a library, but we do want it to be built for every qt version there
+    # is, to allow users to choose the right build if needed.
+    sddm = callPackage ../applications/display-managers/sddm { };
   };
 
   qtEnv = qt5.env;
@@ -17713,6 +17724,10 @@ in
     inherit kernel;
     inherit (kernel) stdenv; # in particular, use the same compiler by default
 
+    # to help determine module compatibility
+    inherit (kernel) isXen isZen isHardened isLibre;
+    inherit (kernel) kernelOlder kernelAtLeast;
+
     # Obsolete aliases (these packages do not depend on the kernel).
     inherit (pkgs) odp-dpdk pktgen; # added 2018-05
 
@@ -17975,6 +17990,7 @@ in
         kernelPatches.hardened.${kernel.meta.branch}
       ];
       modDirVersionArg = kernel.modDirVersion + "-hardened";
+      isHardened = true;
   });
 
   linuxPackages_hardened = recurseIntoAttrs (hardenedLinuxPackagesFor pkgs.linux { });
@@ -18661,8 +18677,6 @@ in
 
   brise = callPackage ../data/misc/brise { };
 
-  inherit (kdeFrameworks) breeze-icons;
-
   cacert = callPackage ../data/misc/cacert { };
 
   caladea = callPackage ../data/fonts/caladea {};
@@ -18828,7 +18842,9 @@ in
 
   fira-mono = callPackage ../data/fonts/fira-mono { };
 
-  flat-remix-icon-theme = callPackage ../data/icons/flat-remix-icon-theme { };
+  flat-remix-icon-theme = callPackage ../data/icons/flat-remix-icon-theme {
+    inherit (kdeFrameworks) breeze-icons;
+  };
 
   font-awesome_4 = (callPackage ../data/fonts/font-awesome-5 { }).v4;
   font-awesome_5 = (callPackage ../data/fonts/font-awesome-5 { }).v5;
@@ -18983,9 +18999,11 @@ in
 
   luculent = callPackage ../data/fonts/luculent { };
 
-  luna-icons = callPackage ../data/icons/luna-icons { };
+  luna-icons = callPackage ../data/icons/luna-icons {
+    inherit (kdeFrameworks) breeze-icons;
+  };
 
-  maia-icon-theme = callPackage ../data/icons/maia-icon-theme { };
+  maia-icon-theme = libsForQt5.callPackage ../data/icons/maia-icon-theme { };
 
   mailcap = callPackage ../data/misc/mailcap { };
 
@@ -19098,15 +19116,17 @@ in
 
   oxygenfonts = callPackage ../data/fonts/oxygenfonts { };
 
-  inherit (kdeFrameworks) oxygen-icons5;
-
   paper-gtk-theme = callPackage ../data/themes/paper-gtk { };
 
   paper-icon-theme = callPackage ../data/icons/paper-icon-theme { };
 
-  papirus-icon-theme = callPackage ../data/icons/papirus-icon-theme { };
+  papirus-icon-theme = callPackage ../data/icons/papirus-icon-theme {
+    inherit (kdeFrameworks) breeze-icons;
+  };
 
-  papirus-maia-icon-theme = callPackage ../data/icons/papirus-maia-icon-theme { };
+  papirus-maia-icon-theme = callPackage ../data/icons/papirus-maia-icon-theme {
+    inherit (kdeFrameworks) breeze-icons;
+  };
 
   papis = with python3Packages; toPythonApplication papis;
 
@@ -19136,7 +19156,9 @@ in
 
   pop-gtk-theme = callPackage ../data/themes/pop-gtk { };
 
-  pop-icon-theme = callPackage ../data/icons/pop-icon-theme { };
+  pop-icon-theme = callPackage ../data/icons/pop-icon-theme {
+    inherit (kdeFrameworks) breeze-icons;
+  };
 
   posix_man_pages = callPackage ../data/documentation/man-pages-posix { };
 
@@ -19414,7 +19436,9 @@ in
 
   yaru-theme = callPackage ../data/themes/yaru {};
 
-  zafiro-icons = callPackage ../data/icons/zafiro-icons { };
+  zafiro-icons = callPackage ../data/icons/zafiro-icons {
+    inherit (kdeFrameworks) breeze-icons;
+  };
 
   zeal = libsForQt514.callPackage ../data/documentation/zeal { };
 
@@ -19792,7 +19816,11 @@ in
 
   calligra = libsForQt514.callPackage ../applications/office/calligra {
     openjpeg = openjpeg_1;
-    poppler = poppler_0_61;
+    poppler = poppler_0_61.override {
+      qt5Support = true;
+      # Must be using the same qt version as calligra itself.
+      qtbase = qt514.qtbase;
+    };
   };
 
   perkeep = callPackage ../applications/misc/perkeep { };
@@ -21357,98 +21385,17 @@ in
 
   kdeApplications =
     let
-      forQt512 =
-        import ../applications/kde {
-          libsForQt5 = libsForQt512;
-          inherit lib fetchurl;
-        };
-      forQt515 =
-        import ../applications/kde {
-          libsForQt5 = libsForQt515;
-          inherit lib fetchurl;
-        };
-      default = {
-        inherit (forQt512)
-          ark
-          bomber bovo
-          dolphin dolphin-plugins dragon
-          ffmpegthumbs filelight
-          granatier gwenview
-          k3b
-          kalzium kapptemplate kapman kate katomic
-          kblackbox kblocks kbounce
-          kcachegrind kcalc kcharselect kcolorchooser
-          kdenetwork-filesharing kdenlive kdf kdialog kdiamond
-          keditbookmarks
-          kfind kfloppy
-          kget
-          khelpcenter
-          kig kigo killbots
-          klettres klines
-          kmag kmines kmix kmplot
-          knavalbattle knetwalk knights
-          kollision kolourpaint kompare konsole
-          kpat
-          krdc kreversi krfb
-          kshisen ksquares ksystemlog
-          kteatime ktimer ktouch kturtle
-          kwalletmanager
-          marble
-          okular
-          picmi
-          spectacle
-          yakuake;
-      };
-      overrides = {
-        inherit (forQt515)
-          akonadi akregator elisa kaddressbook kgpg kitinerary kleopatra kmail
-          kontact korganizer kpkpass kwave minuet;
-      };
-      compat = {
-        # Okteta was removed from kde applications and will now be released independently
-        # Lets keep an alias for compatibility reasons
-        inherit okteta;
+      mkApplications = import ../applications/kde;
+      attrs = {
+        inherit libsForQt5;
+        inherit lib fetchurl;
       };
     in
-      default // overrides // compat;
-
-  inherit (kdeApplications)
-    akonadi akregator ark
-    bomber bovo
-    dolphin dragon
-    elisa
-    ffmpegthumbs filelight
-    granatier gwenview
-    k3b
-    kaddressbook kalzium kapptemplate kapman kate katomic
-    kblackbox kblocks kbounce
-    kcachegrind kcalc kcharselect kcolorchooser
-    kdenetwork-filesharing kdenlive kdf kdialog kdiamond
-    keditbookmarks
-    kfind kfloppy
-    kget kgpg
-    khelpcenter
-    kig kigo killbots kitinerary
-    kleopatra klettres klines
-    kmag kmail kmines kmix kmplot
-    knavalbattle knetwalk knights
-    kollision kolourpaint kompare konsole kontact korganizer
-    kpkpass
-    krdc kreversi krfb
-    kshisen ksquares ksystemlog
-    kteatime ktimer ktouch kturtle
-    kwalletmanager kwave
-    marble minuet
-    okular
-    picmi
-    spectacle
-    yakuake;
+      recurseIntoAttrs (makeOverridable mkApplications attrs);
 
   okteta = libsForQt5.callPackage ../applications/editors/okteta { };
 
   k4dirstat = libsForQt5.callPackage ../applications/misc/k4dirstat { };
-
-  kdeconnect = libsForQt512.callPackage ../applications/misc/kdeconnect { };
 
   inherit (kdeFrameworks) kdesu;
 
@@ -21489,7 +21436,7 @@ in
 
   kid3 = libsForQt5.callPackage ../applications/audio/kid3 { };
 
-  kile = libsForQt512.callPackage ../applications/editors/kile { };
+  kile = libsForQt5.callPackage ../applications/editors/kile { };
 
   kino = callPackage ../applications/video/kino {
     inherit (gnome2) libglade;
@@ -21509,7 +21456,7 @@ in
 
   kmplayer = libsForQt5.callPackage ../applications/video/kmplayer { };
 
-  kmymoney = libsForQt514.callPackage ../applications/office/kmymoney { };
+  kmymoney = libsForQt5.callPackage ../applications/office/kmymoney { };
 
   kodestudio = callPackage ../applications/editors/kodestudio { };
 
@@ -23198,8 +23145,6 @@ in
   prusa-slicer = callPackage ../applications/misc/prusa-slicer { };
 
   robustirc-bridge = callPackage ../servers/irc/robustirc-bridge { };
-
-  sddm = libsForQt512.callPackage ../applications/display-managers/sddm { };
 
   skrooge = libsForQt514.callPackage ../applications/office/skrooge {};
 
@@ -25595,6 +25540,8 @@ in
   lumina = recurseIntoAttrs (callPackage ../desktops/lumina { });
 
   lxqt = recurseIntoAttrs (import ../desktops/lxqt {
+    # TODO: Update these to qt515 at some point. When doing it, please remove
+    # the choice of libsForQt5*.sddm in sddm's module.
     qt5 = qt514;
     libsForQt5 = libsForQt514;
     inherit pkgs;
@@ -25633,32 +25580,13 @@ in
     let
       mkPlasma5 = import ../desktops/plasma-5;
       attrs = {
-        libsForQt5 = libsForQt512;
+        inherit libsForQt5;
         inherit lib fetchurl;
         gconf = gnome2.GConf;
         inherit gsettings-desktop-schemas;
       };
     in
       recurseIntoAttrs (makeOverridable mkPlasma5 attrs);
-
-  inherit (kdeFrameworks) kded kinit frameworkintegration;
-
-  inherit (plasma5)
-    bluedevil breeze-gtk breeze-qt5 breeze-grub breeze-plymouth discover
-    kactivitymanagerd kde-cli-tools kde-gtk-config kdeplasma-addons kgamma5
-    kinfocenter kmenuedit kscreen kscreenlocker ksshaskpass ksysguard
-    kwallet-pam kwayland-integration kwin kwrited milou oxygen plasma-browser-integration
-    plasma-desktop plasma-integration plasma-nm plasma-pa plasma-vault plasma-workspace
-    plasma-workspace-wallpapers polkit-kde-agent powerdevil sddm-kcm
-    systemsettings user-manager xdg-desktop-portal-kde;
-
-  inherit (plasma5.thirdParty)
-    plasma-applet-caffeine-plus
-    kwin-dynamic-workspaces
-    kwin-tiling
-    krohnkite;
-
-  ### SCIENCE
 
   ### SCIENCE/CHEMISTY
 
