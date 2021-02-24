@@ -141,10 +141,6 @@ stdenv.mkDerivation rec {
     buildPackages.stdenv.cc
   ];
 
-  patches = [
-    ./fix-dynamic-arch-gemm-crashes.patch
-  ];
-
   makeFlags = mkMakeFlagsFromConfig (config // {
     FC = "${stdenv.cc.targetPrefix}gfortran";
     CC = "${stdenv.cc.targetPrefix}${if stdenv.cc.isClang then "clang" else "cc"}";
