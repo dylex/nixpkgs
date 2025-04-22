@@ -7,6 +7,7 @@
   libpng,
   libiconv,
   libobjc,
+  autoreconfHook
 }:
 
 stdenv.mkDerivation (finalAttrs: rec {
@@ -21,11 +22,11 @@ stdenv.mkDerivation (finalAttrs: rec {
   ];
 
   src = fetchurl {
-    url = "https://fukuchi.org/works/qrencode/qrencode-${version}.tar.gz";
-    sha256 = "sha256-2kSO1PUqumvLDNSMrA3VG4aSvMxM0SdDFAL8pvgXHo4=";
+    url = "https://github.com/fukuchi/libqrencode/archive/refs/tags/v${version}.tar.gz";
+    sha256 = "sha256-U4W8G4wvIPO5HSWL+MzIz2ICOTXfLSZ2tbZwSfMaBJw=";
   };
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [ pkg-config autoreconfHook ];
 
   buildInputs = [
     libiconv
