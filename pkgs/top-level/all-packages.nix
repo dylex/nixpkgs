@@ -508,6 +508,7 @@ with pkgs;
     buildDotnetGlobalTool
     mkNugetSource
     mkNugetDeps
+    autoPatchcilHook
     ;
 
   fable = callPackage ../development/tools/fable { };
@@ -3815,8 +3816,6 @@ with pkgs;
     inherit (darwin) autoSignDarwinBinariesHook;
   };
 
-  fastlane = callPackage ../tools/admin/fastlane { };
-
   fontforge = lowPrio (
     callPackage ../tools/misc/fontforge {
       inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
@@ -4075,10 +4074,6 @@ with pkgs;
 
   gptcommit = callPackage ../development/tools/gptcommit {
     inherit (darwin.apple_sdk.frameworks) Security SystemConfiguration;
-  };
-
-  gpredict = callPackage ../applications/science/astronomy/gpredict {
-    hamlib = hamlib_4;
   };
 
   gprof2dot = with python3Packages; toPythonApplication gprof2dot;
@@ -5273,8 +5268,6 @@ with pkgs;
   ovito = qt6Packages.callPackage ../applications/graphics/ovito {
     inherit (darwin.apple_sdk.frameworks) VideoDecodeAcceleration;
   };
-
-  oxidized = callPackage ../tools/admin/oxidized { };
 
   p4c = callPackage ../development/compilers/p4c {
     protobuf = protobuf_21;
@@ -14710,10 +14703,6 @@ with pkgs;
 
   scheherazade-new = callPackage ../data/fonts/scheherazade { };
 
-  starship = callPackage ../tools/misc/starship {
-    inherit (darwin.apple_sdk.frameworks) Security Foundation Cocoa;
-  };
-
   inherit (callPackages ../data/fonts/gdouros { })
     aegan
     aegyptus
@@ -17736,13 +17725,25 @@ with pkgs;
   thunderbird-128-unwrapped = thunderbirdPackages.thunderbird-128;
   thunderbird-128 = wrapThunderbird thunderbirdPackages.thunderbird-128 { };
 
-  thunderbird-bin = wrapThunderbird thunderbird-bin-unwrapped {
+  thunderbird-bin = thunderbird-esr-bin;
+  thunderbird-latest-bin = wrapThunderbird thunderbird-latest-bin-unwrapped {
     applicationName = "thunderbird";
     pname = "thunderbird-bin";
     desktopName = "Thunderbird";
   };
-  thunderbird-bin-unwrapped = callPackage ../applications/networking/mailreaders/thunderbird-bin {
-    generated = import ../applications/networking/mailreaders/thunderbird-bin/release_sources.nix;
+  thunderbird-latest-bin-unwrapped =
+    callPackage ../applications/networking/mailreaders/thunderbird-bin
+      {
+        generated = import ../applications/networking/mailreaders/thunderbird-bin/release_sources.nix;
+      };
+  thunderbird-esr-bin = wrapThunderbird thunderbird-esr-bin-unwrapped {
+    applicationName = "thunderbird";
+    pname = "thunderbird-esr-bin";
+    desktopName = "Thunderbird";
+  };
+  thunderbird-esr-bin-unwrapped = callPackage ../applications/networking/mailreaders/thunderbird-bin {
+    generated = import ../applications/networking/mailreaders/thunderbird-bin/release_esr_sources.nix;
+    versionSuffix = "esr";
   };
 
   timbreid = callPackage ../applications/audio/pd-plugins/timbreid {
@@ -18131,7 +18132,7 @@ with pkgs;
 
   webcord = callPackage ../by-name/we/webcord/package.nix { electron = electron_33; };
 
-  webcord-vencord = callPackage ../by-name/we/webcord-vencord/package.nix { electron = electron_33; };
+  webcord-vencord = callPackage ../by-name/we/webcord-vencord/package.nix { electron = electron_34; };
 
   webmacs = libsForQt5.callPackage ../applications/networking/browsers/webmacs {
     stdenv = if stdenv.cc.isClang then gccStdenv else stdenv;
@@ -20318,8 +20319,6 @@ with pkgs;
 
   image_optim = callPackage ../applications/graphics/image_optim { inherit (nodePackages) svgo; };
 
-  itamae = callPackage ../tools/admin/itamae { };
-
   # using the new configuration style proposal which is unstable
   jack1 = callPackage ../misc/jackaudio/jack1.nix { };
 
@@ -21158,8 +21157,6 @@ with pkgs;
   swift-corelibs-libdispatch = swiftPackages.Dispatch;
 
   aitrack = libsForQt5.callPackage ../applications/misc/aitrack { };
-
-  widevine-cdm = callPackage ../applications/networking/browsers/misc/widevine-cdm.nix { };
 
   tidal-dl = python3Packages.callPackage ../tools/audio/tidal-dl { };
 
