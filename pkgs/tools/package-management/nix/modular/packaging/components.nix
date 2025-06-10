@@ -154,6 +154,7 @@ let
       // lib.optionalAttrs (
         stdenv.isLinux
         && !(stdenv.hostPlatform.isStatic && stdenv.system == "aarch64-linux")
+        && !(stdenv.system == "loongarch64-linux")
         && !(stdenv.hostPlatform.useLLVM or false)
       ) { LDFLAGS = "-fuse-ld=gold"; };
   };
@@ -200,6 +201,8 @@ let
         patches = prevScope.patches ++ patches;
       }
     );
+
+  whenAtLeast = v: thing: if lib.versionAtLeast version v then thing else null;
 
 in
 
@@ -336,6 +339,7 @@ in
   nix-store-tests = callPackage ../src/libstore-tests/package.nix { };
 
   nix-fetchers = callPackage ../src/libfetchers/package.nix { };
+  ${whenAtLeast "2.29pre" "nix-fetchers-c"} = callPackage ../src/libfetchers-c/package.nix { };
   nix-fetchers-tests = callPackage ../src/libfetchers-tests/package.nix { };
 
   nix-expr = callPackage ../src/libexpr/package.nix { };

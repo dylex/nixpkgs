@@ -14,8 +14,8 @@ let
 in
 buildNodejs {
   inherit enableNpm;
-  version = "22.14.0";
-  sha256 = "c609946bf793b55c7954c26582760808d54c16185d79cb2fb88065e52de21914";
+  version = "22.16.0";
+  sha256 = "720894f323e5c1ac24968eb2676660c90730d715cb7f090be71a668662a17c37";
   patches = [
     ./configure-emulator.patch
     ./configure-armv6-vfpv2.patch
@@ -60,11 +60,6 @@ buildNodejs {
       url = "https://github.com/nodejs/node/commit/869d0cbca3b0b5e594b3254869a34d549664e089.patch?full_index=1";
       hash = "sha256-BBBShQwU20TSY8GtPehQ9i3AH4ZKUGIr8O0bRsgrpNo=";
       revert = true;
-    })
-    # fix test failure on macos 15.4
-    (fetchpatch2 {
-      url = "https://github.com/nodejs/node/commit/33f6e1ea296cd20366ab94e666b03899a081af94.patch?full_index=1";
-      hash = "sha256-aVBMcQlhQeviUQpMIfC988jjDB2BgYzlMYsq+w16mzU=";
     })
   ];
 }

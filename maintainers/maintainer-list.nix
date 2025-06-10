@@ -4765,6 +4765,12 @@
     githubId = 217899;
     name = "Cyryl Płotnicki";
   };
+  cything = {
+    name = "cy";
+    email = "nix@cything.io";
+    github = "cything";
+    githubId = 45041772;
+  };
   d-brasher = {
     github = "d-brasher";
     githubId = 175485311;
@@ -5835,7 +5841,7 @@
     name = "DontEatOreo";
     github = "DontEatOreo";
     githubId = 57304299;
-    keys = [ { fingerprint = "33CD 5C0A 673C C54D 661E  5E4C 0DB5 361B EEE5 30AB"; } ];
+    matrix = "@donteatoreo:matrix.org";
   };
   doriath = {
     email = "tomasz.zurkowski@gmail.com";
@@ -6454,7 +6460,6 @@
     email = "fedi.jamoussi@protonmail.ch";
     github = "eljamm";
     githubId = 83901271;
-    keys = [ { fingerprint = "FF59 E027 4EE2 E792 512B  BDC8 7630 FDF7 C8FB 1F3F"; } ];
   };
   elkowar = {
     email = "thereal.elkowar@gmail.com";
@@ -22151,6 +22156,12 @@
     githubId = 6579555;
     name = "Jeroen Jetten";
   };
+  thetaoofsu = {
+    email = "TheTaoOfSu@protonmail.com";
+    github = "TheTaoOfSu";
+    githubId = 45526311;
+    name = "TheTaoOfSu";
+  };
   theuni = {
     email = "ct@flyingcircus.io";
     github = "ctheune";
@@ -24665,12 +24676,6 @@
     github = "zaldnoay";
     githubId = 5986078;
     name = "Zunway Liang";
-  };
-  zanculmarktum = {
-    name = "Azure Zanculmarktum";
-    email = "zanculmarktum@gmail.com";
-    github = "zanculmarktum";
-    githubId = 16958511;
   };
   zane = {
     name = "Zane van Iperen";

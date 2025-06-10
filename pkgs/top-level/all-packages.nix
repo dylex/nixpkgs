@@ -2982,7 +2982,7 @@ with pkgs;
   patool = with python3Packages; toPythonApplication patool;
 
   pocket-casts = callPackage ../by-name/po/pocket-casts/package.nix {
-    electron = electron_33;
+    electron = electron_35;
   };
 
   pueue = darwin.apple_sdk_11_0.callPackage ../applications/misc/pueue {
@@ -4085,6 +4085,13 @@ with pkgs;
   graylog-5_2 = callPackage ../tools/misc/graylog/5.2.nix { };
 
   graylog-6_0 = callPackage ../tools/misc/graylog/6.0.nix { };
+
+  inherit
+    ({
+      graylog-6_1 = callPackage ../tools/misc/graylog/6.1.nix { };
+    })
+    graylog-6_1
+    ;
 
   graylogPlugins = recurseIntoAttrs (callPackage ../tools/misc/graylog/plugins.nix { });
 
@@ -6258,10 +6265,14 @@ with pkgs;
   inherit (callPackages ../servers/varnish { })
     varnish60
     varnish75
+    varnish76
+    varnish77
     ;
   inherit (callPackages ../servers/varnish/packages.nix { })
     varnish60Packages
     varnish75Packages
+    varnish76Packages
+    varnish77Packages
     ;
 
   varnishPackages = varnish75Packages;
@@ -8665,6 +8676,7 @@ with pkgs;
     electron_33-bin
     electron_34-bin
     electron_35-bin
+    electron_36-bin
     ;
 
   inherit (callPackages ../development/tools/electron/chromedriver { })
@@ -8675,6 +8687,7 @@ with pkgs;
     electron-chromedriver_33
     electron-chromedriver_34
     electron-chromedriver_35
+    electron-chromedriver_36
     ;
 
   electron_24 = electron_24-bin;
@@ -8684,11 +8697,7 @@ with pkgs;
   electron_30 = electron_30-bin;
   electron_31 = electron_31-bin;
   electron_32 = electron_32-bin;
-  electron_33 =
-    if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_33 then
-      electron-source.electron_33
-    else
-      electron_33-bin;
+  electron_33 = electron_33-bin;
   electron_34 =
     if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_34 then
       electron-source.electron_34
@@ -8699,6 +8708,11 @@ with pkgs;
       electron-source.electron_35
     else
       electron_35-bin;
+  electron_36 =
+    if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_36 then
+      electron-source.electron_36
+    else
+      electron_36-bin;
   electron = electron_34;
   electron-bin = electron_34-bin;
   electron-chromedriver = electron-chromedriver_34;
@@ -13024,7 +13038,9 @@ with pkgs;
 
   glabels-qt = libsForQt5.callPackage ../applications/graphics/glabels-qt { };
 
-  grafana = callPackage ../servers/monitoring/grafana { };
+  grafana = callPackage ../servers/monitoring/grafana {
+    buildGoModule = buildGo124Module;
+  };
   grafanaPlugins = callPackages ../servers/monitoring/grafana/plugins { };
 
   grafana-loki = callPackage ../servers/monitoring/loki { };
@@ -18130,7 +18146,7 @@ with pkgs;
 
   webcamoid = libsForQt5.callPackage ../applications/video/webcamoid { };
 
-  webcord = callPackage ../by-name/we/webcord/package.nix { electron = electron_33; };
+  webcord = callPackage ../by-name/we/webcord/package.nix { electron = electron_35; };
 
   webcord-vencord = callPackage ../by-name/we/webcord-vencord/package.nix { electron = electron_34; };
 
