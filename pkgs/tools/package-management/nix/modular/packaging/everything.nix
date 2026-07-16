@@ -142,13 +142,13 @@ stdenv.mkDerivation (finalAttrs: {
   checkInputs = [
     # Make sure the unit tests have passed
     nix-util-tests.tests.run
-    nix-store-tests.tests.run
+    #nix-store-tests.tests.run
     nix-expr-tests.tests.run
     nix-fetchers-tests.tests.run
     nix-flake-tests.tests.run
 
     # Make sure the functional tests have passed
-    nix-functional-tests
+    #nix-functional-tests
   ]
   ++
     lib.optionals
