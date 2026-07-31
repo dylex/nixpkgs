@@ -4605,7 +4605,6 @@
   cbarrete = {
     github = "cbarrete";
     githubId = 62146989;
-    matrix = "@cedric:cbarrete.com";
     name = "Cédric Barreteau";
   };
   cbleslie = {
@@ -5138,6 +5137,12 @@
     github = "ckauhaus";
     githubId = 1448923;
     name = "Christian Kauhaus";
+  };
+  ckgxrg = {
+    email = "ckgxrg@ckgxrg.io";
+    github = "ckgxrg-salt";
+    githubId = 165614491;
+    name = "ckgxrg";
   };
   cko = {
     email = "christine.koppelt@gmail.com";
@@ -16071,6 +16076,11 @@
     githubId = 83420438;
     name = "Lewis";
   };
+  lubsch = {
+    github = "lubsch";
+    githubId = 33580245;
+    name = "Benjamin Lohmar";
+  };
   luc65r = {
     email = "lucas@ransan.fr";
     github = "luc65r";
@@ -16986,6 +16996,12 @@
     github = "martinjlowm";
     githubId = 110860;
     name = "Martin Jesper Low Madsen";
+  };
+  martinkontsek = {
+    email = "martinkontsek@gmail.com";
+    github = "martinkontsek";
+    githubId = 9106867;
+    name = "Martin Kontšek";
   };
   martinramm = {
     email = "martin-ramm@gmx.de";
@@ -30180,6 +30196,11 @@
     github = "xosnrdev";
     githubId = 106241330;
     name = "Success Kingsley";
+  };
+  xqtc161 = {
+    github = "xqtc161";
+    githubId = 65857432;
+    name = "tila";
   };
   xrelkd = {
     github = "xrelkd";

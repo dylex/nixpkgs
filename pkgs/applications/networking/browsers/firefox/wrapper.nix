@@ -6,6 +6,7 @@
   lndir,
   config,
   buildPackages,
+  gsettings-desktop-schemas,
   jq,
   xdg-utils,
   writeText,
@@ -134,6 +135,12 @@ let
         ++ pkcs11Modules
         ++ lib.optionals (!isDarwin) gtk_modules;
       gtk_modules = lib.optionals (!isDarwin) [ libcanberra-gtk3 ];
+      # strictDeps prevents buildInputs from populating GSETTINGS_SCHEMAS_PATH.
+      # Revert when https://github.com/NixOS/nixpkgs/pull/546281 hits stable.
+      gsettingsSchemaPaths = lib.optionals (!isDarwin) [
+        "${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}"
+        "${browser.gtk3}/share/gsettings-schemas/${browser.gtk3.name}"
+      ];
 
       # Darwin does not rename bundled binaries
       launcherName = "${applicationName}${lib.optionalString (!isDarwin) nameSuffix}";
@@ -215,6 +222,7 @@ let
     in
     stdenv.mkDerivation (finalAttrs: {
       __structuredAttrs = true;
+      strictDeps = true;
       inherit pname version;
 
       desktopItem = makeDesktopItem (
@@ -337,6 +345,11 @@ let
         "XDG_DATA_DIRS"
         ":"
         "${adwaita-icon-theme}/share"
+
+        "--prefix"
+        "XDG_DATA_DIRS"
+        ":"
+        (lib.concatStringsSep ":" gsettingsSchemaPaths)
 
         "--set-default"
         "MOZ_ENABLE_WAYLAND"
@@ -484,9 +497,6 @@ let
             oldExe="$executablePrefix/.${applicationName}"-old
             mv "$executablePath" "$oldExe"
           fi
-        ''
-        + lib.optionalString (!isDarwin) ''
-          appendToVar makeWrapperArgs --prefix XDG_DATA_DIRS : "$GSETTINGS_SCHEMAS_PATH"
         ''
         + ''
           concatTo makeWrapperArgs oldWrapperArgs
